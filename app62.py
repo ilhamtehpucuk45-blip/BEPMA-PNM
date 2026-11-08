@@ -16,6 +16,35 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+import base64
+
+
+try:
+        with open("logo_pnm.png", "rb") as file:
+            logo = base64.b64encode(file.read()).decode()
+
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background-image:
+                    linear-gradient(
+                        rgba(255,255,255,0.94),
+                        rgba(255,255,255,0.94)
+                    ),
+                    url("data:image/png;base64,{logo}");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: 350px;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+except FileNotFoundError:
+        st.warning("File logo_pnm.png belum ditemukan.")
+
 
 DB_NAME = "bank_pengalaman.db"
 
@@ -254,23 +283,39 @@ perbarui_struktur_tabel_dokumen()
 
 
 # ==========================================
-# DESAIN CSS
+
+# ==========================================
+# DESAIN CSS - BEPMA PNM ELECTRIC BLUE
 # ==========================================
 
 st.markdown("""
 <style>
 
+/* WARNA DASAR */
+:root {
+    --primary: #0066FF;
+    --secondary: #168BFF;
+    --light-blue: #EAF2FF;
+    --navy: #073B8C;
+    --text: #243447;
+}
+
+/* BACKGROUND */
 .stApp {
-    background-color: #F5F7FA;
-    color: #243447;
+    background:
+        radial-gradient(ellipse at 5% 0%, #E4F0FF 0%, transparent 35%),
+        linear-gradient(135deg, #F7FAFF, #FFFFFF);
+    color: var(--text);
 }
 
+/* HEADER STREAMLIT */
 header[data-testid="stHeader"] {
-    background: transparent;
+    background: rgba(255,255,255,0.8);
 }
 
+/* SIDEBAR */
 [data-testid="stSidebar"] {
-    background-color: #142D4E;
+    background: linear-gradient(180deg, #0055E8, #003AAB);
 }
 
 [data-testid="stSidebar"] * {
@@ -279,115 +324,368 @@ header[data-testid="stHeader"] {
 
 [data-testid="stSidebar"] [data-testid="stRadio"] label {
     font-size: 14px;
+    border-radius: 9px;
+    padding: 7px;
+    transition: 0.25s ease;
 }
 
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+    background: rgba(255,255,255,0.16);
+}
+
+/* AREA KONTEN */
 .block-container {
     padding-top: 2rem;
     padding-bottom: 3rem;
-    max-width: 1250px;
+    max-width: 1350px;
 }
 
+/* HEADER UTAMA */
 .main-header {
-    background-color: #FFFFFF;
-    border-left: 5px solid #234B76;
-    padding: 25px 30px;
-    border-radius: 5px;
-    margin-bottom: 25px;
-    border-top: 1px solid #E1E7EF;
-    border-right: 1px solid #E1E7EF;
-    border-bottom: 1px solid #E1E7EF;
+    background: linear-gradient(120deg, #0055E8, #168BFF);
+    padding: 36px;
+    border-radius: 18px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 30px rgba(0,102,255,0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-header::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+    right: -65px;
+    top: -100px;
 }
 
 .main-header h1 {
-    color: #142D4E;
-    font-size: 27px;
-    margin-bottom: 8px;
+    color: white !important;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 10px;
 }
 
 .main-header p {
-    color: #68778A;
-    font-size: 14px;
-    margin-bottom: 0;
+    color: #EAF3FF !important;
+    font-size: 15px;
 }
 
 .campus-label {
-    color: #42678E;
+    color: #D9E9FF;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.3px;
-    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
 }
 
+/* JUDUL BAGIAN */
 .section-heading {
-    color: #142D4E;
-    font-size: 20px;
-    font-weight: 650;
-    margin-top: 25px;
-    margin-bottom: 15px;
+    color: #0753C7;
+    font-size: 22px;
+    font-weight: 750;
+    margin-top: 28px;
+    margin-bottom: 18px;
 }
 
+/* KARTU STATISTIK */
 .metric-box {
-    background-color: #FFFFFF;
-    border: 1px solid #E0E6ED;
-    border-radius: 7px;
-    padding: 18px;
+    background: white;
+    border: 1px solid #DCE9FF;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0,80,200,0.06);
+    transition: 0.25s ease;
+}
+
+.metric-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,102,255,0.13);
+    border-color: #168BFF;
 }
 
 .metric-label {
-    color: #718096;
+    color: #64748B;
     font-size: 13px;
 }
 
 .metric-value {
-    color: #142D4E;
-    font-size: 27px;
-    font-weight: 700;
+    color: #0066FF;
+    font-size: 32px;
+    font-weight: 800;
     margin-top: 8px;
 }
 
+/* KARTU KONTEN */
 .content-box {
-    background-color: #FFFFFF;
-    border: 1px solid #E0E6ED;
-    border-radius: 7px;
-    padding: 20px;
-    margin-bottom: 12px;
+    background: white;
+    border: 1px solid #DCE9FF;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,80,200,0.05);
 }
 
 .content-box h4 {
-    color: #142D4E;
-    font-size: 16px;
+    color: #0753C7;
+    font-size: 18px;
 }
 
 .content-box p {
-    color: #68778A;
+    color: #64748B;
     font-size: 14px;
+    line-height: 1.8;
 }
 
+/* TOMBOL */
 .stButton button,
 .stFormSubmitButton button {
-    background-color: #234B76;
-    color: white;
-    border-radius: 5px;
+    background: linear-gradient(110deg, #0066FF, #168BFF);
+    color: white !important;
     border: none;
+    border-radius: 9px;
+    font-weight: 650;
+    min-height: 42px;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0,102,255,0.15);
 }
 
 .stButton button:hover,
 .stFormSubmitButton button:hover {
-    background-color: #142D4E;
-    color: white;
+    background: linear-gradient(110deg, #004FD1, #0066FF);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(0,102,255,0.25);
 }
 
+/* INPUT DAN SELECTBOX */
+.stTextInput input,
+.stTextArea textarea,
+.stSelectbox div[data-baseweb="select"] > div {
+    border-radius: 9px;
+    border-color: #C8DCFF;
+}
+
+.stTextInput input:focus,
+.stTextArea textarea:focus {
+    border-color: #0066FF;
+}
+
+/* TAB DAN EXPANDER */
+.stTabs [data-baseweb="tab"][aria-selected="true"] {
+    color: #0066FF;
+    border-bottom-color: #0066FF;
+}
+
+[data-testid="stExpander"] {
+    border: 1px solid #DCE9FF;
+    border-radius: 11px;
+}
+
+/* FOOTER */
 .footer {
     text-align: center;
-    color: #8793A2;
+    color: #8191A7;
     font-size: 12px;
-    border-top: 1px solid #E0E6ED;
-    margin-top: 40px;
-    padding-top: 20px;
+    border-top: 1px solid #DCE9FF;
+    margin-top: 45px;
+    padding-top: 24px;
+}
+
+/* ANIMASI KONTEN */
+@keyframes contentAppear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main .block-container {
+    animation: contentAppear 0.7s ease-out;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 23px;
+        border-radius: 13px;
+    }
+
+    .main-header h1 {
+        font-size: 24px;
+    }
+
+    .section-heading {
+        font-size: 19px;
+    }
+
+    .metric-value {
+        font-size: 25px;
+    }
+}
+
+/* ANIMASI PEMBUKA */
+@keyframes introFadeOut {
+    0%, 75% {
+        opacity: 1;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+@keyframes logoEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.65) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes textEnter {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes loadingMove {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+.intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: linear-gradient(135deg, #0049D8, #0066FF, #168BFF);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    animation: introFadeOut 1s ease 3s forwards;
+    overflow: hidden;
+}
+
+.intro-screen::before,
+.intro-screen::after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    animation: pulseCircle 3s ease-in-out infinite;
+}
+
+.intro-screen::after {
+    width: 500px;
+    height: 500px;
+    animation-delay: 0.5s;
+}
+
+@keyframes pulseCircle {
+    0%, 100% {
+        transform: scale(0.85);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.12);
+        opacity: 0.8;
+    }
+}
+
+.intro-logo {
+    font-size: 65px;
+    animation: logoEnter 0.9s ease-out both;
+    z-index: 2;
+}
+
+.intro-title {
+    font-size: 35px;
+    font-weight: 850;
+    letter-spacing: 2px;
+    animation: textEnter 1s ease-out 0.35s both;
+    z-index: 2;
+}
+
+.intro-subtitle {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #E3EEFF;
+    margin-top: 8px;
+    animation: textEnter 1s ease-out 0.65s both;
+    z-index: 2;
+}
+
+.intro-loading {
+    width: 180px;
+    height: 4px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.25);
+    overflow: hidden;
+    margin-top: 35px;
+    z-index: 2;
+}
+
+.intro-loading::after {
+    content: "";
+    display: block;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+    animation: loadingMove 2.1s ease-in-out 0.4s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .intro-screen, .intro-logo, .intro-title,
+    .intro-subtitle, .intro-loading::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+    }
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+
+# ==========================================
+# ANIMASI PEMBUKA BEPMA-PNM
+# ==========================================
+
+# Tampilkan animasi satu kali saat sesi aplikasi pertama kali dibuka.
+if "intro_shown" not in st.session_state:
+    st.session_state["intro_shown"] = True
+
+    st.markdown("""
+    <div class="intro-screen">
+        <div class="intro-logo">🎓</div>
+        <div class="intro-title">BEPMA-PNM</div>
+        <div class="intro-subtitle">BANK PENGALAMAN DIGITAL MAHASISWA</div>
+        <div class="intro-subtitle">POLITEKNIK NEGERI MADIUN</div>
+        <div class="intro-loading"></div>
+        <p style="z-index:2; margin-top:15px; font-size:13px; color:white;">
+            Menyiapkan pengalaman belajar Anda...
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # ==========================================
